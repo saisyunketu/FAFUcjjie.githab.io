@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Intro to MapView - Create a 2D map | Sample | ArcGIS Maps SDK for JavaScript 4.29</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+       }
+
+      header {
+        background-color: #f8f8f8; /* 修改页眉背景颜色 */
+        color: #333; /* 修改文字颜色 */
+        padding: 10px 20px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+       }
+
+      header h1 {
+        margin: 0;
+        font-family: '黑体', sans-serif; /* 修改字体为黑体 */
+        text-align: left; /* 大标题左对齐 */
+        font-size: 1.5em;
+       }
+
+      header h2 {
+        margin: 0; /* 小标题距离大标题3像素 */
+        color: #666; /* 设置小标题颜色 */
+        text-align: left; /* 小标题也左对齐 */
+        font-size: 0.8em;
+       }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.29/"></script>
+    <script>
+      require([
+        "esri/layers/FeatureLayer",
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/widgets/BasemapGallery",
+        "esri/widgets/ScaleBar",
+        "esri/widgets/Search",
+        "esri/widgets/Home",
+        "esri/widgets/LayerList",
+        "esri/widgets/Legend",
+        "esri/widgets/AreaMeasurement2D",
+        "esri/widgets/Expand"
+      ], function(
+        FeatureLayer, Map, MapView, BasemapGallery, ScaleBar, Search, Home, LayerList, Legend,
+        AreaMeasurement2D, Expand
+      ) {
+        const layer = new FeatureLayer({
+          url: "https://www.geosceneonline.cn/server/rest/services/Hosted/全国各省地方财政环境保护支出/FeatureServer"
+        });
+        const map = new Map({
+          basemap: "topo-vector"
+        });
+        map.add(layer);
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 3,
+          center: [116, 40]
+        });
+
+        const scaleBar = new ScaleBar({
+          view: view,
+          unit: "dual"
+        });
+        view.ui.add(scaleBar, {
+          position: "bottom-left"
+        });
+
+        const searchWidget = new Search({
+          view: view
+        });
+        view.ui.add(searchWidget, {
+          position: "top-right",
+          index: 2
+        });
+
+        let layerList = new LayerList({
+          view: view
+        });
+        view.ui.add(layerList, {
+          position: "top-left"
+        });
+
+        const basemapGallery = new BasemapGallery({
+          view: view
+        });
+        view.ui.add(basemapGallery, {
+          position: "top-left"
+        });
+
+        let legend = new Legend({
+          view: view
+        });
+        view.ui.add(legend, "bottom-right");
+
+        const areaMeasurementWidget = new AreaMeasurement2D({
+          view: view,
+          unit: "square-kilometers"
+        });
+
+        const expand = new Expand({
+          view: view,
+          content: areaMeasurementWidget,
+          expandIconClass: "esri-icon-measure-area",
+          group: "analysis"
+        });
+
+        view.ui.add(expand, "top-right");
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+        <h1>全国各省2007~2016年度地方财政环境保护支出</h1>
+        <h2>数据概览</h2>
+    </header>
+    <div id="viewDiv"></div>
+  </body>
+</html>
