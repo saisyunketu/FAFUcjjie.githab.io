@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Intro to MapView - Create a 2D map | Sample | ArcGIS Maps SDK for JavaScript 4.29</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+       }
+
+      header {
+        background-image: url('data:image/jpeg;base64,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'); /* 页眉背景图片地址 */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: rgb(36, 69, 99);
+        padding: 10px 20px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+       }
+
+      header h1 {
+        text-shadow: 2px 2px 4px rgba(131, 10, 10, 0.296);
+        margin: 0;
+        font-family: '黑体', sans-serif; /* 修改字体为黑体 */
+        text-align: left; /* 大标题左对齐 */
+        font-size: 1.5em;
+       }
+
+      header h2 {
+        margin: 0; /* 小标题距离大标题3像素 */
+        color: #666; /* 设置小标题颜色 */
+        text-align: left; /* 小标题也左对齐 */
+        font-size: 0.8em;
+       }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.29/"></script>
+    <script>
+      require([
+        "esri/layers/FeatureLayer",
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/widgets/BasemapGallery",
+        "esri/widgets/ScaleBar",
+        "esri/widgets/Search",
+        "esri/widgets/Home",
+        "esri/widgets/LayerList",
+        "esri/widgets/Legend",
+        "esri/widgets/AreaMeasurement2D",
+        "esri/widgets/Expand"
+      ], function(
+        FeatureLayer, Map, MapView, BasemapGallery, ScaleBar, Search, Home, LayerList, Legend,
+        AreaMeasurement2D, Expand
+      ) {
+        const layer = new FeatureLayer({
+          url:"https://www.geosceneonline.cn/server/rest/services/Hosted/全国各省人口死亡率/FeatureServer"  
+        });
+        const map = new Map({
+          basemap: "topo-vector"
+        });
+        map.add(layer);
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 3,
+          center: [116, 40]
+        });
+
+        const scaleBar = new ScaleBar({
+          view: view,
+          unit: "dual"
+        });
+        view.ui.add(scaleBar, {
+          position: "bottom-left"
+        });
+
+        const searchWidget = new Search({
+          view: view
+        });
+        view.ui.add(searchWidget, {
+          position: "top-right",
+          index: 2
+        });
+
+        let layerList = new LayerList({
+          view: view
+        });
+        view.ui.add(layerList, {
+          position: "top-left"
+        });
+
+        const basemapGallery = new BasemapGallery({
+          view: view
+        });
+        view.ui.add(basemapGallery, {
+          position: "top-left"
+        });
+
+        let legend = new Legend({
+          view: view
+        });
+        view.ui.add(legend, "bottom-right");
+
+        const areaMeasurementWidget = new AreaMeasurement2D({
+          view: view,
+          unit: "square-kilometers"
+        });
+
+        const expand = new Expand({
+          view: view,
+          content: areaMeasurementWidget,
+          expandIconClass: "esri-icon-measure-area",
+          group: "analysis"
+        });
+
+        view.ui.add(expand, "top-right");
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>全国各省人口死亡率</h1><br/>
+      <h2>这是关于2000~2016年度人口死亡率的相关数据</h2><br/>
+    </header>
+    <div id="viewDiv"></div>
+  </body>
+</html>
